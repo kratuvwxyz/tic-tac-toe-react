@@ -35,9 +35,27 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
-    return <Square value={i} />;
+
+  state = {
+    squares: Array(9).fill(null)
   }
+
+  /* 
+  let a = Array(9)
+  // [empty x 9]
+  a[3] = 'apple'
+  // [empty x 3, 'apple', empty x 5]
+  a.fill(null)
+  // [null, null, null, null, null, null, null, null, null]
+  */
+
+  renderSquare(i) {
+    return <Square value={this.state.squares[i]} />;
+  }
+
+  /* 
+  this.state.squares = null
+  */
 
   render() {
     const status = 'Next player: X';
