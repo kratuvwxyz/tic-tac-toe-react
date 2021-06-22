@@ -20,24 +20,45 @@ import ReactDOM from 'react-dom';
 
 import './index.css'
 
-class Square extends React.Component {
-  state = {
-    value: null
-  }
+/* class Square extends React.Component {
+  // state = {
+  //   value: null
+  // }
 
   render() {
     return (
-      <button className="square" onClick={() => this.setState({value: 'X'})}>
-        {this.state.value}
+      // <button className="square" onClick={() => this.setState({value: 'X'})}>
+      //   {this.state.value}
+      // </button>
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
       </button>
     );
   }
+} */
+
+// don't need a class component if no state change
+function Square (props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  )
 }
 
 class Board extends React.Component {
 
   state = {
-    squares: Array(9).fill(null)
+    squares: Array(9).fill(null),
+    xIsNext: true,
+  }
+
+  handleClick = (i) => {
+    // console.log(i);
+    const squares = this.state.squares.slice();
+    // console.log(squares);
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({squares: squares, xIsNext: !this.state.xIsNext})
   }
 
   /* 
@@ -50,7 +71,7 @@ class Board extends React.Component {
   */
 
   renderSquare(i) {
-    return <Square value={this.state.squares[i]} />;
+    return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)}/>;
   }
 
   /* 
@@ -58,7 +79,7 @@ class Board extends React.Component {
   */
 
   render() {
-    const status = 'Next player: X';
+    const status = `Next Player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
     return (
       <div>
